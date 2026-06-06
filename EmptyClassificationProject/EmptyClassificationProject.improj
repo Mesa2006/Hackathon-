@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ImagimobStudio version="1.1.0">
+  <Job id="35da1f89-04e5-44a7-ab32-46d1f0cb92d5" />
+  <ProjectType>Classification</ProjectType>
+  <ProjectId>57128ad4-ac39-4692-b767-72d0be4073f5</ProjectId>
+  <Preprocessor inshape="[2]" intype="Float32" infreq="16000" outshape="[512,2,26]" outtype="Float32">
+    <Unit id="Core.Queues.SlidingWindow">
+      <Argument param="input" type="String">data</Argument>
+      <Argument param="time_input" type="String">time</Argument>
+      <Argument param="window_shape" type="Shape">[512,2]</Argument>
+      <Argument param="stride" type="Int32">256</Argument>
+      <Argument param="buffer_multiplier" type="Double">1</Argument>
+      <Argument param="output" type="String">data</Argument>
+      <Argument param="time_output" type="String">time</Argument>
+    </Unit>
+    <Unit id="Core.Math.Hann">
+      <Argument param="input" type="String">data</Argument>
+      <Argument param="sym" type="Boolean">True</Argument>
+      <Argument param="output" type="String">data</Argument>
+    </Unit>
+    <Unit id="Core.Math.Fft.RealFft">
+      <Argument param="input" type="String">data</Argument>
+      <Argument param="axis" type="Int32">0</Argument>
+      <Argument param="output" type="String">data</Argument>
+    </Unit>
+    <Unit id="Core.Signal.MelFilterbank">
+      <Argument param="input" type="String">data</Argument>
+      <Argument param="num_filters" type="Int32">26</Argument>
+      <Argument param="sample_rate" type="Int32">16000</Argument>
+      <Argument param="f_low" type="Int32">300</Argument>
+      <Argument param="f_high" type="Int32">8000</Argument>
+      <Argument param="htk" type="Boolean">True</Argument>
+      <Argument param="librosa" type="Boolean">False</Argument>
+      <Argument param="output" type="String">data</Argument>
+    </Unit>
+    <Unit id="Core.Signal.PowToDb">
+      <Argument param="input" type="String">data</Argument>
+      <Argument param="ref" type="Double">1</Argument>
+      <Argument param="amin" type="Double">1E-10</Argument>
+      <Argument param="topdb" type="Double">80</Argument>
+      <Argument param="output" type="String">data</Argument>
+    </Unit>
+  </Preprocessor>
+  <ModelFactory>
+    <Epochs>100</Epochs>
+    <BatchSize>16</BatchSize>
+    <SplitCount>16</SplitCount>
+    <Patience>20</Patience>
+    <AppendModels>False</AppendModels>
+    <LossFunction>CategoricalCrossentropy</LossFunction>
+    <HardwareType>Infineon</HardwareType>
+    <TrainingEnvironment>
+    </TrainingEnvironment>
+    <ModelFamily>Conv1D</ModelFamily>
+    <ModelFlavor>SmallKern</ModelFlavor>
+    <ClassifierType>GlobalAveragePool</ClassifierType>
+    <Optimization>Balanced</Optimization>
+    <Pooling>True</Pooling>
+    <Downscale>False</Downscale>
+    <LearnRate>Mid</LearnRate>
+    <RegularizationFactor>Low</RegularizationFactor>
+    <LastNetworkInputShape>[10]</LastNetworkInputShape>
+    <LastClassCount>1</LastClassCount>
+    <Optimizer>
+      <LearningRate>0.001</LearningRate>
+      <WeightDecay>0.0001</WeightDecay>
+    </Optimizer>
+    <BuildSteps>
+      <Training />
+      <ConfusionMatrix />
+    </BuildSteps>
+  </ModelFactory>
+  <Database balance="AnnotatedLength" redistributionScope="Everything">
+    <SymbolMap>
+      <Symbol name="unlabeled" id="0" weight="1" />
+      <Symbol name="east" id="1" weight="1" />
+      <Symbol name="north" id="2" weight="1" />
+      <Symbol name="west" id="3" weight="1" />
+    </SymbolMap>
+    <DataSet id="unassigned" targetSize="0" labels="Unassigned" />
+    <DataSet id="train" targetSize="0.6" labels="Complete">
+      <Session name="east 1" sessionId="80ee5c97-4853-45c7-aec2-e646cac856f5" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849304794927456" start="0" length="9.44">../LiveDataCollection/east 1/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/east 1/east 1.imsession</SessionFile>
+        <LabelFile modified="5250849304794203869">../LiveDataCollection/east 1/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="6.8044996">east</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="north 1" sessionId="07d8c1d2-210c-4747-a537-89338848a43b" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849312752161070" start="0" length="9.152">../LiveDataCollection/north 1/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/north 1/north 1.imsession</SessionFile>
+        <LabelFile modified="5250849312751780985">../LiveDataCollection/north 1/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="7.4698415">north</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="north 3" sessionId="0b76f540-3b65-4d4a-b701-76ade7122151" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849315177055931" start="0" length="7.744">../LiveDataCollection/north 3/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/north 3/north 3.imsession</SessionFile>
+        <LabelFile modified="5250849315176775871">../LiveDataCollection/north 3/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="5.6447686">north</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="east 2" sessionId="856b7e17-2669-4ff0-bbcc-f4743c446dd7" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849306449771744" start="0" length="7.008">../LiveDataCollection/east 2/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/east 2/east 2.imsession</SessionFile>
+        <LabelFile modified="5250849306449492641">../LiveDataCollection/east 2/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="6.3422874">east</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="west 2" sessionId="a17f1a16-3e71-4471-b7ed-23ea17d5cc86" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849310177209564" start="0" length="7.808">../LiveDataCollection/west 2/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/west 2/west 2.imsession</SessionFile>
+        <LabelFile modified="5250849310176919953">../LiveDataCollection/west 2/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="6.5351178">west</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="east 5" sessionId="17f3e822-0a94-4019-b937-741d58f9748d" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849338034596954" start="0" length="9.632">../LiveDataCollection/east 5/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/east 5/east 5.imsession</SessionFile>
+        <LabelFile modified="5250849338034247832">../LiveDataCollection/east 5/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="7.5637786">east</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="north 5" sessionId="06318416-2b56-453c-90eb-06e0a1728353" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849336980747669" start="0" length="9.76">../LiveDataCollection/north 5/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/north 5/north 5.imsession</SessionFile>
+        <LabelFile modified="5250849336980382455">../LiveDataCollection/north 5/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="7.7491532">north</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="west 4" sessionId="97f22315-d0ef-41c6-b520-2a4579bcfcb9" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849335153058934" start="0" length="9.408">../LiveDataCollection/west 4/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/west 4/west 4.imsession</SessionFile>
+        <LabelFile modified="5250849335152737408">../LiveDataCollection/west 4/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="7.5839019">west</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="west 5" sessionId="99ebeef1-168c-497c-941a-0604587404d7" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849335879547363" start="0" length="8.576">../LiveDataCollection/west 5/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/west 5/west 5.imsession</SessionFile>
+        <LabelFile modified="5250849335879173213">../LiveDataCollection/west 5/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="6.7628048">west</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+    </DataSet>
+    <DataSet id="validation" targetSize="0.2" labels="Complete">
+      <Session name="east 3" sessionId="e73e6741-3304-4c6b-be27-aa9883709566" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849308744264413" start="0" length="9.856">../LiveDataCollection/east 3/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/east 3/east 3.imsession</SessionFile>
+        <LabelFile modified="5250849308743924338">../LiveDataCollection/east 3/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="6.7760591">east</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="north 2" sessionId="d209dd67-1e8a-415e-9236-0eac1e221b9c" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849313837462587" start="0" length="9.344">../LiveDataCollection/north 2/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/north 2/north 2.imsession</SessionFile>
+        <LabelFile modified="5250849313837136647">../LiveDataCollection/north 2/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="7.5214995">north</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="west 3" sessionId="d5d81b6c-6dc3-42a0-bb86-5d23f67937f5" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849310744797591" start="0" length="8.384">../LiveDataCollection/west 3/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/west 3/west 3.imsession</SessionFile>
+        <LabelFile modified="5250849310744397512">../LiveDataCollection/west 3/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="7.9783222">west</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+    </DataSet>
+    <DataSet id="test" targetSize="0.2" labels="Complete">
+      <Session name="west 1" sessionId="c2478bfc-5d9a-47ef-b963-ad956d6ed081" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849309661112721" start="0" length="8.288">../LiveDataCollection/west 1/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/west 1/west 1.imsession</SessionFile>
+        <LabelFile modified="5250849309660731531">../LiveDataCollection/west 1/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="6.089433">west</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="east 4" sessionId="039d016f-18f4-4d3d-b26a-d4a34acf6814" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849337477984706" start="0" length="9.6">../LiveDataCollection/east 4/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/east 4/east 4.imsession</SessionFile>
+        <LabelFile modified="5250849337477570782">../LiveDataCollection/east 4/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="7.6221947">east</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+      <Session name="north 4" sessionId="b6f0f7ae-2d9d-4ff6-b259-b422544a404d" originalSessionId="00000000-0000-0000-0000-000000000000" ownerLocked="False" labelTrack="Live Labeling" dataTrack="Microphone Data" tags="None">
+        <DataFile shape="[2]" samplerate="16000" modified="5250849336501136195" start="0" length="10.112">../LiveDataCollection/north 4/Microphone-Data.wav</DataFile>
+        <SessionFile>../LiveDataCollection/north 4/north 4.imsession</SessionFile>
+        <LabelFile modified="5250849336500772229">../LiveDataCollection/north 4/Live-Labeling.label</LabelFile>
+        <Labels>
+          <Label count="1" length="8.3572208">north</Label>
+        </Labels>
+        <CustomColumnValues />
+      </Session>
+    </DataSet>
+  </Database>
+  <PredefinedLabels>
+    <Label>north</Label>
+    <Label>east</Label>
+    <Label>west</Label>
+  </PredefinedLabels>
+</ImagimobStudio>

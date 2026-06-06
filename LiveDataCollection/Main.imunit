@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Imaginet version="2.0.0.0">
+  <Compound unit="e2e038a0-e281-4de4-a43c-355bd5afec8d">
+    <Nodes>
+      <LabelListNode id="node_0" width="120" height="120" x="170" y="235.60000000000002" enabled="true" profiling="false">
+        <Label>east</Label>
+        <Label>north</Label>
+        <Label>west</Label>
+      </LabelListNode>
+      <UnitNode id="node_6" x="514.9630462164391" y="264.87971218747794" enabled="true" profiling="false" name="Microphone Data" unit="ImagimobStudio.Modules.DataTrack" />
+      <DeviceNode id="node_7" x="143.30878498316667" y="33.51391715095454" enabled="true" profiling="false" name="Microphone" board="290de5cb-460b-41bf-7dd4-800e1e3f0133" boardName="PSOC Edge E84 AI Kit " device="0">
+        <BooleanArgument param="stereo_20">true</BooleanArgument>
+      </DeviceNode>
+    </Nodes>
+    <Connections>
+      <Connection>
+        <Source node="node_7" param="Audio" />
+        <Target node="node_6" param="data" />
+      </Connection>
+    </Connections>
+  </Compound>
+</Imaginet>
